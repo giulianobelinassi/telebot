@@ -767,21 +767,24 @@ telebot_error_e telebot_download_file(telebot_handler_t handle, char *file_id,
     return ret;
 }
 
-#if 0
-telebot_error_e telebot_delete_message(long long int chat_id, int message_id)
+telebot_error_e telebot_delete_message(telebot_handler_t handle,
+        long long int chat_id, int message_id)
 {
-    if (g_handler == NULL)
+    telebot_hdata_t* _handle = (telebot_hdata_t*) handle;
+
+    if (_handle == NULL)
         return TELEBOT_ERROR_NOT_SUPPORTED;
 
-    if ((chat_id <= 0) || (message_id <= 0))
+    if (message_id <= 0)
         return TELEBOT_ERROR_INVALID_PARAMETER;
 
     telebot_error_e ret = telebot_core_delete_message(_handle->core_h, chat_id, message_id);
-    tb_sfree(_handle->core_h->resp_data, &(_handle->core_h->resp_size));
+    tb_sfree_zcnt(_handle->core_h->resp_data, _handle->core_h->resp_size);
 
     return ret;
 }
 
+/*
 telebot_error_e telebot_send_sticker(long long int chat_id, char *sticker,
         bool is_file, int reply_to_message_id, char *reply_markup)
 {
@@ -802,8 +805,7 @@ telebot_error_e telebot_send_sticker(long long int chat_id, char *sticker,
 
     return ret;
 }
-
-#endif
+*/
 
 /* Utility functions for releasing memory */
 static void telebot_free_user(telebot_user_t *user)

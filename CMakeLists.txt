@@ -25,7 +25,7 @@ pkg_check_modules(PKGS REQUIRED ${DEPENDENTS})
 FOREACH(flag ${PKGS_CFLAGS})
     SET(EXTRA_LIB_CFLAGS "${EXTRA_LIB_CFLAGS} ${flag}")
 ENDFOREACH(flag)
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_LIB_CFLAGS} -Werror -Wall -Wno-unused-function" )
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${EXTRA_LIB_CFLAGS} -Wall -Wno-unused-function -O2 -D_FORTIFY_SOURCE=2 -fstack-protector-strong" )
 
 # libtelebot
 ADD_LIBRARY(${PROJECT_NAME} SHARED ${SRCS})
